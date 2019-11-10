@@ -3,10 +3,14 @@ const expressLayouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
 
 const app = express();
 
-const db = require("./config/keys").mongoURI;
+//Passport config
+require("./config/passport")(passport);
+
+const db = require("./config/keys").localURI;
 
 mongoose
   .connect(db, { useNewUrlParser: true })
@@ -31,6 +35,10 @@ app.use(
 
 //connect flash middleware
 app.use(flash());
+
+//Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Global variables
 // app.use((req, res, next) => {
