@@ -6,7 +6,10 @@ const passport = require("passport");
 
 //Login Page
 router.get("/login", (req, res) => {
-  res.render("Login", { message: req.flash("success_msg") });
+  res.render("Login", {
+    success_reg_msg: req.flash("success_reg_msg"),
+    error: req.flash("error")
+  });
 });
 
 //Register Page
@@ -64,7 +67,7 @@ router.post("/register", (req, res) => {
             newUser
               .save()
               .then(user => {
-                req.flash("success_msg", "you are registered successfully");
+                req.flash("success_reg_msg", "you are registered successfully");
                 res.redirect("/users/login");
               })
               .catch(err => {
@@ -77,8 +80,15 @@ router.post("/register", (req, res) => {
   }
 });
 
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  res.redirect("/dashboard");
-});
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/users/login",
+    failureFlash: true
+  }),
+  (req, res) => {
+    res.redirect("/dashboard");
+  }
+);
 
 module.exports = router;

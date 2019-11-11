@@ -4,12 +4,28 @@
       <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i> Login</h1>
       <form action="/users/login" method="POST">
         <div class="form-group">
-          <% if(message != "") { %>
+          <% if(success_reg_msg != "") { %>
           <div
             class="alert alert-warning alert-dismissible fade show"
             role="alert"
           >
-            <%= message %>
+            <%= success_reg_msg %>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <% } %> <% if(error != "") { %>
+          <div
+            class="alert alert-warning alert-dismissible fade show"
+            role="alert"
+          >
+            <%= error %>
             <button
               type="button"
               class="close"
@@ -21,6 +37,7 @@
           </div>
 
           <% } %>
+
           <label for="email">Email</label>
           <input
             type="email"
